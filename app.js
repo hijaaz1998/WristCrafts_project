@@ -36,8 +36,7 @@ app.use('/', userRoute);
 app.use('/admin', adminRoute);
 
 app.set('view engine', 'ejs');
-
-
+// app.set('view engine', 'ejs');
 
 app.listen(1000, () => {
     console.log('server started');
