@@ -1,0 +1,191 @@
+<%- include('header') %>
+
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                
+            </div>
+        </div>
+        <section class="mt-50 mb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        
+                        <% if (cartProducts.length > 0) { %>
+                            <div class="table-responsive">
+                              <table class="table shopping-summery text-center clean">
+                                <thead>
+                                  <tr class="main-heading">
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Subtotal</th>
+                                    <th scope="col">Remove</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <% let grandTotal = 0; %>
+                                  <% for (let i = 0; i < cartProducts.length; i++) { %>
+                                    <% const item = cartProducts[i]; %>
+                                    <tr>
+                                      <td class="image product-thumbnail"><img src="/admin/assets/productsImages/<%- item.products.image %>" alt="#"></td>
+                                      <td class="product-des product-name">
+                                        <h5 class="product-name"><a href="shop-product-right.html"><%- item.products.productName %></a></h5>
+                                        <p class="font-xs"><%- item.products.description %><br> <%- item.products.brandName %></p>
+                                      </td>
+                                      <td class="price" data-title="Price"><span><%- "$" + item.products.salePrice %></span></td>
+                                      <td class="text-center" data-title="Stock">
+                                        <div class="detail-qty border radius m-auto">
+                                          <a href="#" class="qty-down" data-action="decrement" data-item-id="<%- item.products._id %>">
+                                            <i class="fi-rs-angle-small-down"></i>
+                                          </a>
+                                          <span class="qty-val"><%- item.quantity %></span> <!-- Add initial quantity here -->
+                                          <a href="#" class="qty-up" data-action="increment" data-item-id="<%- item.products._id %>">
+                                            <i class="fi-rs-angle-small-up"></i>
+                                          </a>
+                                        </div>
+                                      </td>
+                                      <td class="text-right" data-title="Cart">
+                                        <span class="subtotal subtotal-value"><%- "$" + item.quantity * item.products.salePrice%></span> <!-- Add class "subtotal-value" -->
+                                      </td>
+                                      <td class="action" data-title="Remove"><a href="/removeFromCart/<%- item.products._id %>" class="text-muted"><i class="fi-rs-trash"></i></a></td>
+                                    </tr>
+                                    <% grandTotal += item.products.salePrice * item.quantity; %>
+                                  <% } %>
+                                  <tr>
+                                    <td colspan="6" class="text-end">
+                                      <a href="/clearCart/<%- userId %>" class="text-muted"> <i class="fi-rs-cross-small"></i> Clear Cart</a>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                           
+                            <div class="divider center_icon mt-50 mb-50"><i class="fi-rs-fingerprint"></i></div>
+                            <div class="row mb-50">
+                              <div class="col-lg-6 col-md-12">
+                                <div class="border p-md-4 p-30 border-radius cart-totals">
+                                  <div class="heading_s1 mb-3">
+                                    <h4>Cart Totals</h4>
+                                  </div>
+                                  <div class="table-responsive">
+                                    <table class="table">
+                                      <tbody>
+                                        <tr>
+                                          <td class="cart_total_label">Cart Subtotal</td>
+                                          <td class="cart_total_amount">
+                                            <span id="subtotal" class="font-lg fw-900 text-brand">$<%= grandTotal %></span>
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td class="cart_total_label">Shipping</td>
+                                          <td class="cart_total_amount">
+                                            <i class="ti-gift mr-5"></i> Free Shipping
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td class="cart_total_label">Total</td>
+                                          <td class="cart_total_amount">
+                                            <strong><span id="total" class="font-xl fw-900 text-brand">$<%= grandTotal %></span></strong>
+                                          </td>
+                                        </tr>
+                                        
+                                        
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                  <form action="/checkout?total=<%= grandTotal %>" method="POST">
+                                    <% for (let i = 0; i < cartProducts.length; i++) { %>
+                                        <input type="hidden" name="productIds[]" value="<%- cartProducts[i].products._id %>">
+                                    <% } %>
+                                    <button type="submit" class="btn">Proceed To CheckOut</button>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          <% } else { %>
+                            <div class="empty-cart-message text-center">
+                                <h2>Your cart is empty</h2>
+                                <p>Looks like you haven't added any items to your cart yet.</p>
+                                <a href="/shop" class="btn btn-primary">Continue Shopping</a>
+                            </div>
+                          <% } %>
+                          
+                                        
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+// Update the JavaScript code
+$(document).ready(function() {
+  // Handle the increment and decrement links
+  $(".qty-up, .qty-down").on("click", function(e) {
+    e.preventDefault();
+    const action = $(this).data("action");
+    const itemId = $(this).data("item-id");
+
+    // Store a reference to the clicked element
+    const clickedElement = $(this);
+
+    // Make an AJAX request to update the cart
+    $.ajax({
+    type: "GET",
+    url: `/updateCart?action=${action}&itemId=${itemId}`,
+    success: function (response) {
+      const row = clickedElement.closest("tr");
+      row.find(".qty-val").text(response.quantity);
+      console.log('subtotal', response.subtotal);
+
+      // Update subtotal based on quantity and price
+      row.find(".subtotal-value").text("$" + response.subtotal.toFixed(2));
+
+      // Calculate the grand total after updating the subtotal
+      const grandTotal = calculateGrandTotal(); // You need to implement this function
+
+      // Update the grand total
+      updateSubtotalAndTotal(grandTotal);
+    },
+    error: function (error) {
+      console.error("Error:", error);
+    }
+  });
+
+  });
+
+  // Function to calculate the grand total (you need to implement this)
+  function calculateGrandTotal() {
+    let grandTotal = 0;
+    $(".subtotal-value").each(function () {
+      const subtotalText = $(this).text();
+      const subtotalValue = parseFloat(subtotalText.replace("$", ""));
+      grandTotal += subtotalValue;
+    });
+    return grandTotal.toFixed(2); // Format to two decimal places
+  }
+
+
+  // Function to update subtotal and total values in the HTML
+  function updateSubtotalAndTotal(grandTotal) {
+    // Assuming you have an element with the id "total"
+    const totalElement = $("#total");
+    const granTotal = $("#subtotal");
+    // Set the grand total into the "Total" field
+    totalElement.text("$" + grandTotal);
+    granTotal.text("$" + grandTotal)
+  }
+
+});
+
+
+</script>
+
+    
+    
+
+
+<%- include('footer') %>

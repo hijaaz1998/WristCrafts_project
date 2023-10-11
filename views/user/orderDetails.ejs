@@ -1,0 +1,313 @@
+<%- include('header') %>
+
+<main class="main">
+    <section class="pt-50 pb-150 container-fluid">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3"> <!-- Sidebar with tabs -->
+                    <div class="dashboard-menu">
+                        <ul class="nav flex-column" >
+                            <li class="nav-item">
+                                <a class="nav-link " id="dashboard-tab"  href="/account"   ><i class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link active" id="orders-tab"  href="/orders" ><i class="fi-rs-shopping-bag mr-10"></i>Orders</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="track-orders-tab"  href="#track-orders" ><i class="fi-rs-shopping-cart-check mr-10"></i>Track Your Order</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="address-tab" href="/address" ><i class="fi-rs-marker mr-10"></i>My Address</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="account-detail-tab"  href="/wallet" ><i class="fi-rs-user mr-10"></i>Wallet</a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-9"> <!-- Content area -->
+                    <section class="content-main">
+                        <!-- <div class="content-header">
+                            <div>
+                                <h2 class="content-title card-title">Order detail</h2>
+                                <p>Details for Order ID: 3453012</p>
+                            </div>
+                        </div> -->
+                        <div class="card">
+                            <header class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                                        <span>
+                                            <i class="material-icons md-calendar_today"></i> <b><%= orders.createdOn.toDateString() %></b>
+                                        </span> <br>
+                                        <small class="text-muted">Order ID: <%= orders._id %></small>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                                        
+                                        <% if (orders.orderStatus === 'Delivered') { %>
+                                            <a class="btn btn-primary" href="/download-invoice/<%= orders._id %>">Download Invoice</a>
+                                          <% } %>
+                                          
+                                    </div>
+                                </div>
+                            </header> <!-- card-header end// -->
+                            <div class="card-body">
+                                <div class="row mb-50 mt-20 order-info-wrap">
+                                    <div class="col-md-6">
+                                        <article class="icontext align-items-start">
+                                            <span class="icon icon-sm rounded-circle bg-primary-light">
+                                                <i class="text-primary material-icons md-person"></i>
+                                            </span>
+                                            <div class="text">
+                                                <h6 class="mb-1">Customer</h6>
+                                                <p class="mb-1"><%= orders.user.fname + " " + orders.user.lname  %> <br> <%= orders.user.email %>
+                                                </p>
+                                                
+                                            </div> 
+                                        </article>
+                                    </div> <!-- col// -->
+                                    <!-- <div class="col-md-4">
+                                        <article class="icontext align-items-start">
+                                            <span class="icon icon-sm rounded-circle bg-primary-light">
+                                                <i class="text-primary material-icons md-local_shipping"></i>
+                                            </span>
+                                            <div class="text">
+                                                <h6 class="mb-1">Order info</h6>
+                                                <p class="mb-1">
+                                                    Shipping: Fargo express <br> Pay method: card <br> Status: new
+                                                </p>
+                                                <a href="#">Download info</a>
+                                            </div>
+                                        </article>
+                                    </div>  -->
+                                    <div class="col-md-6">
+                                        <article class="icontext align-items-start">
+                                            <span class="icon icon-sm rounded-circle bg-primary-light">
+                                                <i class="text-primary material-icons md-place"></i>
+                                            </span>
+                                            <div class="text">
+                                                <h6 class="mb-1">Deliver to </h6>
+                                                <p class="mb-1"><%= address.name %> <br> <%= address.address %> <br> <%= address.city %>
+                                                    <%= address.state %> <br> <%= address.pincode %> <br> <%= address.phone %>
+                                                </p>
+                                                
+                                            </div>
+                                        </article>
+                                    </div> <!-- col// -->
+                                </div> <!-- row // -->
+                                <div class="row">
+                                    <div class="col-lg-7">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="40%">Product</th>
+                                                        <th width="20%">Unit Price</th>
+                                                        <th width="20%">Quantity</th>
+                                                        <th width="20%" class="text-end">Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% let subtotal = 0; %>
+                                                    <% orders.products.forEach(product => { %>
+                                                        <tr>
+                                                            <td>
+                                                                <a class="itemside" href="#">
+                                                                    <div class="left">
+                                                                        <img src="/admin/assets/productsImages/<%- product.product.image %>" width="40" height="40" class="img-xs" alt="Item">
+                                                                    </div>
+                                                                    <div class="info"><%= product.product.productName %></div>
+                                                                </a>
+                                                            </td>
+                                                            <td>$<%= product.price %></td>
+                                                            <td><%= product.quantity %></td>
+                                                            <td class="text-end">$<%= product.quantity * product.price %></td>
+                                                        </tr>
+                                                        <% subtotal += product.quantity * product.price; %>
+                                                    <% }); %>
+                                                
+                                                    <tr>
+                                                        <td colspan="4">
+                                                            <article class="float-end">
+                                                                <dl class="dlist">
+                                                                    <dt>Subtotal:</dt>
+                                                                    <dd>$<%= subtotal.toFixed(2) %></dd>
+                                                                </dl>
+                                                                <% if (orders.discountedPrice > 0) { %>
+                                                                    <dl class="dlist">
+                                                                        <dt>Discounted Amount:</dt>
+                                                                        <dd>$<%= orders.discountedPrice.toFixed(2) %></dd>
+                                                                    </dl>
+                                                                <% } %>
+                                                                
+                                                                <dl class="dlist">
+                                                                    <dt>Grand total:</dt>
+                                                                    <dd><b class="h5">$<%= subtotal - orders.discountedPrice.toFixed(2) %></b></dd>
+                                                                    <!-- Adjust the additional charges (e.g., shipping) as needed -->
+                                                                </dl>
+                                                                <!-- <dl class="dlist">
+                                                                    <dt class="text-muted">Status:</dt>
+                                                                    <dd>
+                                                                        <span class="badge rounded-pill alert-success text-success">Payment done</span>
+                                                                    </dd>
+                                                                </dl> -->
+                                                            </article>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                
+                                            </table>
+                                        </div> <!-- table-responsive// -->
+                                    </div> <!-- col// -->
+                                    <div class="col-lg-1"></div>
+                                    <div class="col-lg-4">
+                                        <% if (orders.orderStatus === 'Pending' || orders.orderStatus === 'Shipped' || orders.orderStatus === 'Packed' || orders.orderStatus === 'Accepted') { %>
+                                            <button type="button" class="btn btn-primary" onclick="showCancelConfirmation('<%= orders._id %>')">Cancel</button><br><br>
+                                          <% } else if (orders.orderStatus === 'Delivered' && !orders.returnStatus) { %>
+                                            <button type="button" class="btn btn-secondary" onclick="showReturnConfirmation('<%= orders._id %>')">Return</button><br><br>
+                                          <% } %>
+                                          
+                                          <% if (orders.returnStatus) { %>
+                                            <span class="return-status">Return <%= orders.returnStatus %> </span>
+                                          <% } %>
+                                          <% if (orders.orderStatus === "Cancelled") { %>
+                                            <span class="return-status">Order <%= orders.orderStatus %> </span>
+                                          <% } %>
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                        
+
+                                        <!-- <div class="box shadow-sm bg-light">
+                                            <h6 class="mb-15">Payment info</h6>
+                                            <p>
+                                                <img src="/users/assets/imgs/card-brands/2.png" class="border" height="20"> Master Card **** **** 4768 <br>
+                                                Business name: Grand Market LLC <br>
+                                                Phone: +1 (800) 555-154-52
+                                            </p>
+                                        </div> -->
+                                        <!-- <div class="h-25 pt-4">
+                                            <div class="mb-3">
+                                                <label>Notes</label>
+                                                <textarea class="form-control" name="notes" id="notes" placeholder="Type some note"></textarea>
+                                            </div>
+                                            
+                                        </div> -->
+                                        
+                                    </div> <!-- col// -->
+                                </div>
+                            </div> <!-- card-body end// -->
+                        </div> <!-- card end// -->
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<script>
+function showCancelConfirmation(orderId) {
+    Swal.fire({
+        title: 'Confirm Cancel',
+        text: `Are you sure you want to cancel order with ID ${orderId}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, cancel it!',
+    }).then((result) => {
+        if (result.isConfirmed) {
+        cancelOrder(orderId);
+        }
+    });
+}
+
+function showReturnConfirmation(orderId) {
+    Swal.fire({
+        title: 'Confirm Return',
+        text: `Are you sure you want to return order with ID ${orderId}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, return it!',
+    }).then((result) => {
+        if (result.isConfirmed) {
+        returnOrder(orderId);
+        }
+    });
+}
+
+    function cancelOrder(orderId) {
+
+        fetch(`/cancelOrder/${orderId}`, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parse the response as JSON (if applicable)
+            })
+            .then((data) => {
+            
+                if(data.success === true){
+
+                    window.location.href = `/orders`;
+                    Swal.fire('Canceled!', 'Your order has been canceled.', 'success');
+
+                }
+            // Display a success message (you can customize this)
+            
+            })
+        .catch((error) => {
+            // Handle any errors that occurred during the fetch
+            console.error('Fetch error:', error);
+            // Display an error message (you can customize this)
+            Swal.fire('Error', 'An error occurred while canceling the order.', 'error');
+            });
+    }
+
+    function returnOrder(orderId) {
+        fetch(`/returnOrder/${orderId}`, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parse the response as JSON (if applicable)
+            })
+            .then((data) => {
+            
+                if(data.success === true){
+
+                    window.location.href = `/orders`;
+                    Swal.fire('Requested!', 'Your order has been requested for Return.', 'success');
+
+                }
+            // Display a success message (you can customize this)
+            
+            })
+        .catch((error) => {
+            // Handle any errors that occurred during the fetch
+            console.error('Fetch error:', error);
+            // Display an error message (you can customize this)
+            Swal.fire('Error', 'An error occurred while canceling the order.', 'error');
+            });
+}
+
+</script>
+<%- include('footer') %>

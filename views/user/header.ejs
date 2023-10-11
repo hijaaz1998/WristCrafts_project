@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+
+<!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Jul 2023 10:04:24 GMT -->
+<head>
+    <meta charset="utf-8">
+    <title>Evara - eCommerce HTML Template</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/users/assets/imgs/theme/favicon.svg">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="/users/assets/css/maind134.css?v=3.4">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Bootstrap CSS -->
+    <link href="path-to-bootstrap-css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery (required for Bootstrap JavaScript) -->
+    <script src="path-to-jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="path-to-bootstrap-js/bootstrap.min.js"></script>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <link href="/admin/assets/css/main.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/users/assets/css/wallet.css" type="text/css">
+    <!-- Include RateYo! from a CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- SweetAlert CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+
+<!-- SweetAlert JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
+<!-- Include Bootstrap CSS and JavaScript via CDN -->
+
+
+
+    
+    <style>
+        /* Star Rating Styles */
+.rating {
+  display: flex;
+  margin-top: 10px;
+}
+
+/* Add this to your CSS stylesheet */
+.return-status {
+  font-size: 24px; /* Adjust the font size as needed */
+  color: #ff0000; /* Change the color as needed */
+  /* Add more styles as desired, such as font-weight, text-decoration, etc. */
+}
+
+
+.star {
+  cursor: pointer;
+  font-size: 30px;
+}
+
+.star:hover {
+  color: gold;
+}
+
+        .pagination a.active {
+        background-color: #007bff; /* Highlighted background color */
+        color: #fff; /* Font color for the active page */
+        border: 1px solid #007bff; /* Optional border for the active page */
+        }
+        /* CSS */
+        .discount-row {
+        display: none;
+        }
+
+        .custom-dropdown {
+            position: relative;
+            width: 100%;
+        }
+        
+        .coupon-details {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            z-index: 100;
+        }
+        
+        .custom-dropdown select:focus + .coupon-details {
+            display: block;
+        }
+        </style>
+<style>
+        /* Pagination container styles */
+ul.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+/* Pagination link styles */
+ul.pagination li {
+  margin-right: 10px;
+}
+
+ul.pagination a {
+  text-decoration: none;
+  background-color: #f2f2f2;
+  color: #333;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+ul.pagination a:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Active page link styles */
+ul.pagination a.active {
+  background-color: #333;
+  color: #fff;
+}
+
+.payment_option {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px; /* Adjust the margin as needed */
+}
+
+.wallet-balance {
+    display: inline-block;
+    vertical-align: top;
+}
+.banner {
+            background-size: cover;
+            text-align: center;
+            color: #fff;
+            padding: 229px 0;
+        }
+        .banner h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .banner p {
+            font-size: 18px;
+        }
+
+
+</style>
+</head>
+
+<body>
+    
+    <header class="header-area header-style-1 header-height-2">
+        <div class="header-top header-top-ptb-1 d-none d-lg-block">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-3 col-lg-4">
+                        <div class="header-info">
+                            
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-4">
+                        
+                    </div>
+                    <div class="col-xl-3 col-lg-4">
+                        <div class="header-info header-info-right">
+                            <ul>
+                                <li>
+                                    <a class="language-dropdown-active" href="#"> <i class="fi-rs-world"></i> English <i class="fi-rs-angle-small-down"></i></a>
+                                    <ul class="language">
+                                  
+                                    </ul>
+                                </li>
+                                <ul>
+                                    <% if (locals.user) { %>
+                                        <li><a href="/logout"><p class="text-dark">Logout</p></a></li>
+                                    <% } else { %>
+                                        <li><a href="/login"><p class="text-dark">Log in</p></a></li>
+                                        
+                                    <% } %>
+                                    <li> <a href="#"><span class="flaticon-user"></span></a></li>
+                                    <li><a href="#"><span class="flaticon-shopping-cart"></span></a> </li>
+    
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+            <div class="container">
+                <div class="header-wrap">
+                    <div class="logo logo-width-1">
+                        <a href="/"><img src="/admin/assets/imgs/theme/wristcraftslogo.png" alt="logo"></a>
+                    </div>
+                    <div class="header-right">
+                        <div class="search-style-2">
+                            <form action="/searchProducts" method="GET">
+                                <input type="text" name="q" placeholder="Search for items...">
+                                
+                            </form>
+                            
+                        </div>
+                        <div class="header-action-right">
+                            <div class="header-action-2">
+
+                                <div class="header-action-icon-2">
+                                     <a href="/wishlist">
+                                        <img class="svgInject" alt="Evara" src="/users/assets/imgs/theme/icons/icon-heart.svg">
+                                        
+                                    </a>
+                                </div>
+                                <div class="header-action-icon-2">
+                                    <a class="mini-cart-icon" href="/cart">
+                                        <img alt="Evara" src="/users/assets/imgs/theme/icons/icon-cart.svg">
+                                    </a>
+                                </div>
+
+                                <div class="header-action-icon-2">
+                                    <a class="mini-cart-icon" href="/account">
+                                        <img alt="Evara" src="/users/assets/imgs/theme/icons/icon-user.svg">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-bottom header-bottom-bg-color sticky-bar">
+            <div class="container">
+                <div class="header-wrap header-space-between position-relative">
+                    <div class="logo logo-width-1 d-block d-lg-none">
+                        <a href="/"><img src="/users/assets/imgs/theme/logo.svg" alt="logo"></a>
+                    </div>
+                    <div class="header-nav d-none d-lg-flex">
+                        <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
+                            <nav>
+                                <ul class="nav justify-content-center">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/">Home</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">About</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/shop">Shop</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Contact</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="header-action-right d-block d-lg-none">
+                        <div class="header-action-2">
+                            <div class="header-action-icon-2">
+                                <a href="/wishlist">
+                                    <img alt="Evara" src="/users/assets/imgs/theme/icons/icon-heart.svg">
+                                </a>
+                            </div>
+                            <div class="header-action-icon-2">
+                                <a class="mini-cart-icon" href="/cart">
+                                    <img alt="Evara" src="/users/assets/imgs/theme/icons/icon-cart.svg">
+                                </a>
+                            </div>
+                            <div class="header-action-icon-2">
+                                <a class="mini-cart-icon" href="/account">
+                                    <img alt="Evara" src="/users/assets/imgs/theme/icons/icon-user.svg">
+                                </a>
+                            </div>
+                            <div class="header-action-icon-2 d-block d-lg-none">
+                                <div class="burger-icon burger-icon-white">
+                                    <span class="burger-icon-top"></span>
+                                    <span class="burger-icon-mid"></span>
+                                    <span class="burger-icon-bottom"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="mobile-header-active mobile-header-wrapper-style">
+        <div class="mobile-header-wrapper-inner">
+            <div class="mobile-header-top">
+                <div class="mobile-header-logo">
+                    <a href="/"><img src="assets/imgs/theme/logo.svg" alt="logo"></a>
+                </div>
+                <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
+                    <button class="close-style search-close">
+                        <i class="icon-top"></i>
+                        <i class="icon-bottom"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="mobile-header-content-area">
+                <div class="mobile-search search-style-3 mobile-header-border">
+                    <form action="/searchProducts" method="GET">
+                        <input type="text" name="q" placeholder="Search for items…">
+                    </form>
+                </div>
+                <div class="mobile-menu-wrap mobile-header-border">
+                    
+                    <!-- mobile menu start -->
+                    <nav>
+                        <ul class="mobile-menu">
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="/">Home</a>
+                                
+                            </li>
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="/shop">shop</a>
+                                
+                            </li>
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">About</a>
+                                
+                            </li>
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Contact</a>
+                                
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- mobile menu end -->
+                </div>
+                <div class="mobile-header-info-wrap mobile-header-border">
+                    
+                    <div class="single-mobile-header-info">
+                        <% if (locals.user) { %>
+                            <li><a href="/logout"><p class="text-dark">Logout</p></a></li>
+                        <% } else { %>
+                            <li><a href="/login"><p class="text-dark">Log in</p></a></li>
+                            
+                        <% } %>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+
+    

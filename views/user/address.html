@@ -1,0 +1,104 @@
+<%- include('header') %>
+
+<main class="main">
+    <section class="pt-50 pb-150 container-fluid">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3"> <!-- Sidebar with tabs -->
+                    <div class="dashboard-menu">
+                        <ul class="nav flex-column" role="tablist">
+                            
+                                <li class="nav-item">
+                                    <a class="nav-link " id="dashboard-tab"  href="/account"   ><i class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
+                                </li>
+                                
+                                <li class="nav-item">
+                                    <a class="nav-link " id="orders-tab"  href="/orders" ><i class="fi-rs-shopping-bag mr-10"></i>Orders</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="track-orders-tab"  href="#" ><i class="fi-rs-shopping-cart-check mr-10"></i>Track Your Order</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="address-tab" href="/address" ><i class="fi-rs-marker mr-10"></i>My Address</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="account-detail-tab"  href="#account-detail" ><i class="fi-rs-user mr-10"></i>Account details</a>
+                                </li>
+                                
+                            
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-9"> <!-- Content area -->
+                    <div class="row">
+                        <div class="col-9">
+                            <div class="content-header">
+                                <div>
+                                    <a href="/addNewAddress">
+                                        <button class="btn btn-md rounded font-sm hover-up">Add New</button>
+                                    </a>
+                                </div>
+                                
+                            </div>
+                        </div><br><br><br>
+                        <div class="col-9">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row gx-5">
+                                        
+                                        <div class="col-lg-9">
+                                            <section class="content-body p-xl-4">
+                                                <form>
+                                                    <div class="row mb-4">
+                                                        <label class="col-lg-3 col-form-label">Name</label>
+                                                        <div class="col-lg-9">
+                                                            <input type="text" class="form-control" value="<%- address.name %>" >
+                                                        </div> <!-- col.// -->
+                                                    </div> <!-- row.// -->
+                                                    <div class="row mb-4">
+                                                        <label class="col-lg-3 col-form-label">Email</label>
+                                                        <div class="col-lg-9">
+                                                            <input type="text" class="form-control" value="<%- address.email %>" >
+                                                        </div> <!-- col.// -->
+                                                    </div> <!-- row.// -->
+                                                    <div class="row mb-4">
+                                                        <label class="col-lg-3 col-form-label">Phone</label>
+                                                        <div class="col-lg-9">
+                                                            <input type="text" class="form-control" value="<%- address.phone %>" >                                                        </div> <!-- col.// -->
+                                                    </div> <!-- row.// -->
+
+                                                    <div class="card mb-4">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <address>
+                                                                        <%- address.address %> <br> <%- address.city %>,<br> <%- address.pincode %> <br>
+                                                                    </address>
+                                                                    <p><%- address.state %></p>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    
+                                                    <br>
+                                                    <a href="/editAddress" class="btn btn-primary">Edit</a>
+
+                                                </form>
+                                            </section> <!-- content-body .// -->
+                                        </div> <!-- col.// -->
+                                    </div> <!-- row.// -->
+                                </div> <!-- card body end// -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+    
+<%- include('footer') %>

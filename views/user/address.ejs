@@ -1,0 +1,92 @@
+<%- include('header') %>
+
+<main class="main">
+    <section class="pt-50 pb-150 container-fluid">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3"> <!-- Sidebar with tabs -->
+                    <div class="dashboard-menu">
+                        <ul class="nav flex-column" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link " id="dashboard-tab"  href="/account"   ><i class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link " id="orders-tab"  href="/orders" ><i class="fi-rs-shopping-bag mr-10"></i>Orders</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="track-orders-tab"  href="#" ><i class="fi-rs-shopping-cart-check mr-10"></i>Track Your Order</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" id="address-tab" href="/address" ><i class="fi-rs-marker mr-10"></i>My Address</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="account-detail-tab"  href="/wallet" ><i class="fi-rs-user mr-10"></i>Wallet</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-9"> <!-- Content area -->
+                    <div class="row">
+                        <div class="col-9">
+                            <div class="content-header">
+                                <div>
+                                    <a href="/addNewAddress">
+                                        <button class="btn btn-md rounded font-sm hover-up">Add New</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- main content -->
+                        <div class="col-12"> <!-- Use col-12 instead of col-9 to extend to full width -->
+                            <div class="row">
+                                <% for (let i = 0; i < address.length; i++) { %>
+                                <div class="col-lg-6">
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <section class="content-body p-xl-4">
+                                                <form action="#" method="post">
+                                                    <!-- Add a radio button for selecting this address as default -->
+                                                    
+                                                        
+                                                    
+                                                    <!-- Rest of the address details -->
+                                                    <div class="card mb-4">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <address>
+                                                                        <br><%- address[i].name %><br><%- address[i].email %><br><%- address[i].phone %> <br>
+                                                                        <%- address[i].address %> <br> <%- address[i].city %>,<br> <%- address[i].pincode %> <br>
+                                                                    </address>
+                                                                    <p><%- address[i].state %></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <a href="/editAddress?addressId=<%- address[i]._id %>" class="btn btn-primary">Edit</a>
+                                                    
+                                                    <!-- <a href="/editAddress" class="btn btn-danger">Remove</a> -->
+
+                                                
+                                                
+                                                    
+                                                </form>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<%- include('footer') %>

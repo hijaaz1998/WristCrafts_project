@@ -1,0 +1,342 @@
+<%- include('header') %>
+
+    <section class="mt-50 mb-50">
+        <div class="container">
+            <div class="row flex-row-reverse justify-content-center">
+                <div class="col-lg-9">
+                    <div class="product-detail accordion-detail">
+                        <div class="row mb-50">
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class="detail-gallery">
+                                    
+                                    <!-- MAIN SLIDES -->
+                                    <div class="product-image-slider">
+                                        <img src="/admin/assets/productsImages/<%- Product.image[0] %>">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class="detail-info">
+                                    <h2 class="title-detail"><%- Product.productName %></h2>
+                                    <div class="product-detail-rating">
+                                        <div class="pro-details-brand">
+                                            <span> Brand <a href="shop-grid-right.html"><%- "$" + Product.brandName %></a></span>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="clearfix product-price-cover">
+                                        <div class="product-price primary-color float-left">
+                                            <ins><span class="text-brand"> <%- "$" + Product.salePrice %> </span></ins>
+                                            <input type="hidden" value="<%- Product._id %>" id="productId">
+                                            <ins><span class="old-price font-md ml-15"><%- "$" + Product.regularPrice %></span></ins>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="bt-1 border-color-1 mt-15 mb-15"></div>
+                                    <div class="short-desc mb-30">
+                                        <p><%- Product.description %></p>
+                                    </div>
+                                    <div class="product_sort_info font-xs mb-30">
+                                        <ul>
+                                            <li class="mb-10"><i class="fi-rs-crown mr-5"></i> 1 Year AL Jazeera Brand Warranty</li>
+                                            <li class="mb-10"><i class="fi-rs-refresh mr-5"></i> 30 Day Return Policy</li>
+                                            <li><i class="fi-rs-credit-card mr-5"></i> Cash on Delivery available</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    
+                                    <div class="bt-1 border-color-1 mt-30 mb-30"></div>
+                                    <div class="detail-extralink">
+                                        
+                                        <div class="product-extra-link2">
+                                            <% if (Product.quantity > 0) { %>
+                                                <form action="/addToCart" method="post">
+                                                    <button type="submit" class="button button-add-to-cart">Add to cart</button>
+                                                    <input type="hidden" value="<%= Product._id %>" name="ProductId" id="ProductId">
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                </form>
+                                              <% } else { %>
+                                                <!-- Display "Out of Stock" -->
+                                                <span class="out-of-stock">Out of Stock</span>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-style3">
+                            <ul class="nav nav-tabs text-uppercase">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="Description-tab" data-bs-toggle="tab" href="#Description">Description</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content shop_info_tab entry-main-content">
+                                <div class="tab-pane fade show active" id="Description">
+                                    <div class="">
+                                        <p><%- Product.description %></p>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div><br><br><br>
+                        
+                        
+                        <div class="comments-area style-2">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <h4 class="mb-30">Customer reviews</h4>
+                                    <div class="comment-list">
+                                        <% if (review.length > 0) { %>
+                                        <% review.forEach(review => { %>
+                                        <div class="single-comment justify-content-between d-flex">
+                                            <div class="user justify-content-between d-flex" id="reviewDiv">
+                                                <div class="thumb text-center">
+                                                    <img src="" alt="<%= review.user.username %>">
+                                                    <h6><a href="#"><%= review.user.fname %></a></h6>
+                                                </div>
+                                                <div class="desc">
+                                                    <div class="product-rate d-inline-block">
+                                                        <div class="product-rating" style="width: <%= (review.userRating / 5) * 100 %>%;"></div>
+                                                    </div>
+                                                    <p><%= review.userReviews %></p>
+                                                    <div class="d-flex justify-content-between">
+                                                        <div class="d-flex align-items-center">
+                                                            <p class="font-xs mr-30"><%= review.createdOn.toDateString() %></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% }); %>
+                                        <% } else { %>
+                                        <p>No reviews available.</p>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <% if (userOrderedProduct && (userOrderedProduct.orderStatus === 'Delivered' || userOrderedProduct.returnStatus)) { %>
+                        <div class="row">
+                            <div class="col-lg-8 col-md-12">
+                                <form class="form-contact comment_form" >
+                                    <div class="row">
+                                        <label for="userRating">Rating:</label>
+                                        <div class="rating">
+                                            <span class="star" data-value="5">&#9733;</span>
+                                            <span class="star" data-value="4">&#9733;</span>
+                                            <span class="star" data-value="3">&#9733;</span>
+                                            <span class="star" data-value="2">&#9733;</span>
+                                            <span class="star" data-value="1">&#9733;</span>
+                                        </div>
+                                        <input type="hidden" id="userRating" name="userRating" value="0">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <textarea class="form-control w-100" name="userReview" id="userReview" cols="30" rows="9" placeholder="Write Comment" required></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="submitReviewButton"  type="submit" class="button button-contactForm">Submit Review</button>
+                                    </div>
+                                </form>
+                                <p id="errorMessage"></p>
+                            </div>
+                        </div>
+                        <% } %>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="modal fade" id="ratingModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Provide Rating</h4>
+                </div>
+                <div class="modal-body">
+                    Please provide a rating before submitting.
+                </div>
+                <div class="modal-footer">
+                    Press anywhere to close this  
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="reviewModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Provide Review</h4>
+                </div>
+                <div class="modal-body">
+                    Please provide review before submitting.
+                </div>
+                <div class="modal-footer">
+                    Press anywhere to close this  
+                </div>
+            </div>
+        </div>
+    </div>
+
+<%- include('footer') %>
+
+<script>
+// Function to handle form submission
+function submitReview() {
+    const userRating = document.getElementById("userRating").value;
+    const userReview = document.getElementById("userReview").value;
+    const productIdInput = document.querySelector('input[name="ProductId"]');
+    const reviewDiv = document.getElementById('reviewDiv')
+
+    if (!userRating) {
+        $('#ratingModal').modal('show');
+        return; 
+    }
+
+    if(!userReview){
+        $('#reviewModal').modal('show');
+        return; 
+    }
+
+
+
+    // Get the value of the hidden input
+    const productId = productIdInput.value;
+
+    // Create a JavaScript object with the review data
+    const reviewData = {
+        userRating,
+        userReview,
+    };
+
+    // Send the data to the server-side script for database storage
+    fetch('/productReview/<%= Product._id %>', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(reviewData),
+    })
+    .then(response => {
+        if (response.ok) {
+            
+            return response.json();
+        } else {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    })
+    .then(data => {
+        if (data.success === true) {
+
+            reviewDiv.innerHTML = '';
+
+            const reviewHTML = `
+                <div class="user justify-content-between d-flex">
+                    <div class="thumb text-center">
+                        <img src="${data.review.user.avatar}" alt="${data.review.user.username}">
+                        <h6><a href="#">${data.review.user.fname}</a></h6>
+                    </div>
+                    <div class="desc">
+                        <div class="product-rate d-inline-block">
+                            <div class="product-rating" style="width: ${(data.review.userRating / 5) * 100}%;"></div>
+                        </div>
+                        <p>${data.review.userReviews}</p>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <p class="font-xs mr-30">${data.review.createdOn.toDateString()}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            reviewDiv.append(reviewHTML);
+            
+        } else {
+            // Handle the case where the server sends a custom error message
+            const errorMessageElement = document.getElementById("errorMessage");
+            errorMessageElement.textContent = ` ${data.message}`;
+            errorMessageElement.style.color = "red";
+
+            // Set a timer to clear the error message after 5 seconds (5000 milliseconds)
+            const delayMilliseconds = 5000; // 5 seconds
+            setTimeout(() => {
+                errorMessageElement.textContent = ''; // Clear the error message
+            }, delayMilliseconds); // Optionally, set the text color to red or any other style you prefer
+        }
+        
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+// Add an event listener to the "Submit Review" button
+document.getElementById('submitReviewButton').addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+
+    // Call the submitReview() function to handle the form submission
+    submitReview();
+});
+
+
+
+
+// Event listener for star rating
+document.querySelectorAll('.star').forEach(star => {
+    star.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        const value = star.getAttribute('data-value');
+        document.getElementById("userRating").value = value;
+
+        // Fill in stars up to the clicked star
+        document.querySelectorAll('.star').forEach(s => {
+            const sValue = s.getAttribute('data-value');
+            if (sValue <= value) {
+                s.style.color = 'gold';
+            } else {
+                s.style.color = 'black';
+            }
+        });
+    });
+
+    // Hover effect
+    star.addEventListener('mouseover', () => {
+        const value = star.getAttribute('data-value');
+        highlightStars(value);
+    });
+    star.addEventListener('mouseout', () => {
+        resetStars();
+    });
+});
+
+
+// Function to highlight stars on hover
+function highlightStars(value) {
+    document.querySelectorAll('.star').forEach(star => {
+        if (star.getAttribute('data-value') <= value) {
+            star.style.color = 'gold';
+        } else {
+            star.style.color = 'black';
+        }
+    });
+}
+
+// Function to reset star colors
+function resetStars() {
+    const userRating = document.getElementById("userRating").value;
+    highlightStars(userRating);
+}
+
+
+</script>
+
+

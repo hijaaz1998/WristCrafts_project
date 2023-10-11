@@ -1,0 +1,63 @@
+<%- include('header') %>
+
+<section class="mt-50 mb-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table shopping-summery text-center">
+                        <thead>
+                            <tr class="main-heading">
+                                <th scope="col" colspan="2">Product</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Action</th>
+                                <th scope="col">Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (wishlist.products.length > 0) { %>
+                                <% wishlist.products.forEach(function(wishlistItem) { %>
+                                <tr>
+                                    <td class="image product-thumbnail"><img src="/admin/assets/productsImages/<%- wishlistItem.image %>" alt="#"></td>
+                                    <td class="product-des product-name">
+                                        <h5 class="product-name"><a href="shop-product-right.html"><%= wishlistItem.productName %></a></h5>
+                                                <p class="font-xs"><%= wishlistItem.brandName %><br><%= wishlistItem.description %></p>
+                                    </td>
+                                    <td class="price" data-title="Price"><span>$<%= wishlistItem.salePrice %></span></td>
+                                    
+                                    <td class="text-right" data-title="Cart">
+                                        <form action="/addToCart" method="post">
+                                            <div class="product-action-1 show">
+                                            <!-- Check if there is stock (quantity > 0) -->
+                                            <% if (wishlistItem.quantity > 0) { %>
+                                                <button aria-label="Add To Cart" class="action-btn hover-up" type="submit">
+                                                <input type="hidden" value="<%= wishlistItem._id %>" name="ProductId" id="ProductId">
+                                                <h6>Add To Cart</h6>
+                                                </button>
+                                            <% } else { %>
+                                                <!-- Display "Out of Stock" -->
+                                                <span class="out-of-stock">Out of Stock</span>
+                                            <% } %>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <td class="action" data-title="Remove"><a href="/removeFromWishlist/<%= wishlistItem._id %>"><i class="fi-rs-trash"></i></a></td>
+                                </tr>
+                                <% }); %>
+                            
+                        </tbody>
+                    </table>
+                    <% } else { %>
+                        <div class="empty-cart-message text-center">
+                            <h2>Your wishlist is empty</h2>
+                            <p>Looks like you haven't added any items to your wishlist yet.</p>
+                            <a href="/shop" class="btn btn-primary">Continue Shopping</a>
+                        </div><br><br><br>
+                    <% } %>   
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('footer') %>

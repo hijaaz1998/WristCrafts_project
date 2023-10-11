@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      text-decoration: underline;
+      color: blue;
+    }
+
+    .tooltip:hover::before {
+      content: attr(data-tooltip);
+      position: absolute;
+      background-color: #333;
+      color: #fff;
+      border-radius: 50%; /* Creates an elliptical shape */
+      padding: 8px 16px;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.3s ease-in;
+    }
+
+    .tooltip:hover::before {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <p>
+    Hover over this <span class="tooltip" data-tooltip="Elliptical tooltip example">tooltip</span>.
+  </p>
+</body>
+</html>
