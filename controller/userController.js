@@ -105,8 +105,8 @@ const   sendOtp = async (req, res) => {
             host: 'smtp.gmail.com',
             port: 587,
             auth: {
-                user: 'muhammadijasbtc@gmail.com',
-                pass: 'garptzwtnjktkggr'
+                user: process.env.user,
+                pass: process.env.pass
             }
         });
 
