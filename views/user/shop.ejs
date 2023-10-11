@@ -1,0 +1,121 @@
+<%- include('header') %>
+   
+   <main class="main">
+        <section class="mt-50 mb-50">
+            <div class="container">
+                <div class="row flex-row-reverse">
+                    <div class="col-lg-9">
+                        <div class="shop-product-fillter">
+                            
+                            <div class="sort-by-product-area">
+                                
+                                <div class="sort-by-cover">
+                                    <div class="sort-by-product-wrap">
+                                        <div class="sort-by">
+                                            <span><i class="fi-rs-apps-sort"></i>Sort by:</span>
+                                        </div>
+                                        <div class="sort-by-dropdown-wrap">
+                                            <span> Featured <i class="fi-rs-angle-small-down"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="sort-by-dropdown">
+                                      <ul>
+                                          <li><a href="/shop">Featured</a></li>
+                                          <li><a href="/shop?sort=1<%= categoryId ? '&categoryId=' + categoryId : '' %><%= page ? '&page=' + page : '' %><%= minPrice ? '&minPrice=' + minPrice : '' %><%= maxPrice ? '&maxPrice=' + maxPrice : '' %>">Price: Low to High</a></li>
+                                          <li><a href="/shop?sort=-1<%= categoryId ? '&categoryId=' + categoryId : '' %><%= page ? '&page=' + page : '' %><%= minPrice ? '&minPrice=' + minPrice : '' %><%= maxPrice ? '&maxPrice=' + maxPrice : '' %>">Price: High to Low</a></li>
+                                      </ul>
+                                    </div>
+                                  
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row product-grid-3">
+                          <% for (let i = 0; i < Product.length; i++) { %>
+                            <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+                              <div class="product-cart-wrap mb-30">
+                                <div class="product-img-action-wrap">
+                                  <div class="product-img product-img-zoom">
+                                    <a href="/productDetail?id=<%- Product[i]._id %>">
+                                      <img class="default-img" src="/admin/assets/productsImages/<%- Product[i].image[0] %>" alt="">
+                                    </a>
+                                  </div>
+                                  <div class="product-action-1">
+                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/addToWishlist?productId=<%- Product[i]._id %>"><i class="fi-rs-heart"></i></a>
+                                  </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                  <div class="product-category">
+                                    <a href="#"><%- Product[i].brandName %></a>
+                                  </div>
+                                  <h2><a href="#"><%- Product[i].productName %></a></h2>
+                                  
+                                  <div class="product-price">
+                                    <span><%- "$" + Product[i].salePrice %></span>
+                                    <span class="old-price"><%- "$" + Product[i].regularPrice %></span>
+                                  </div>
+                        
+                                  <!-- Add to Cart form -->
+                                  <form action="/addToCart" method="post">
+                                    <div class="product-action-1 show">
+                                      <!-- Check if there is stock (quantity > 0) -->
+                                      <% if (Product[i].quantity > 0) { %>
+                                        <button aria-label="Add To Cart" class="action-btn hover-up" type="submit">
+                                          <input type="hidden" value="<%= Product[i]._id %>" name="ProductId" id="ProductId">
+                                          <h6>Cart</h6>
+                                        </button>
+                                      <% } else { %>
+                                        <!-- Display "Out of Stock" -->
+                                        <span class="out-of-stock">Out of Stock</span>
+                                      <% } %>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          <% } %>
+                        </div>
+                        <ul class="pagination">
+                          <% for (let i = 1; i <= totalPages; i++) { %>
+                            <li>
+                              <a href="/shop?page=<%= i %><%= sort ? '&sort=' + sort : '' %><%= categoryId ? '&categoryId=' + categoryId : '' %><%= minPrice ? '&minPrice=' + minPrice : '' %><%= maxPrice ? '&maxPrice=' + maxPrice : '' %>" class="<%= i === currentPage ? 'active' : '' %>">
+                                <%= i %>
+                              </a>
+                            </li>
+                          <% } %>
+                        </ul>
+                    
+                    </div>
+                    
+                    <div class="col-lg-3 primary-sidebar sticky-sidebar">
+                        <div class="widget-category mb-30">
+                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
+                            <ul><li><a href="/shop">All</a></li></ul>
+                            <% category.forEach(category => { %>
+                            <ul class="categories">
+                                
+                                <li style="word-break: break-all;"><a href="/shop?categoryId=<%= category._id %><%= sort ? '&sort=' + sort : '' %><%= page ? '&page=' + page : '' %><%= minPrice ? '&minPrice=' + minPrice : '' %><%= maxPrice ? '&maxPrice=' + maxPrice : '' %>"><%= category.name %></a></li>
+                                
+                            </ul>
+                            <% }); %>
+                        </div>
+                        <div class="widget-category mb-30">
+                          <h5 class="section-title style-1 mb-30 wow fadeIn animated">Price Ranges</h5>
+                          <ul>
+                            <li><a href="/shop">All</a></li>
+                            <li><a href="/shop?maxPrice=2000<%= sort ? '&sort=' + sort : '' %><%= page ? '&page=' + page : '' %><%= categoryId ? '&categoryId=' + categoryId : '' %>">less Than 2000</a></li>
+                            <li><a href="/shop?minPrice=2000&maxPrice=5000<%= sort ? '&sort=' + sort : '' %><%= page ? '&page=' + page : '' %><%= categoryId ? '&categoryId=' + categoryId : '' %>">2000 - 5000</a></li>
+                            <li><a href="/shop?minPrice=5000<%= sort ? '&sort=' + sort : '' %><%= page ? '&page=' + page : '' %><%= categoryId ? '&categoryId=' + categoryId : '' %>">Above 5000</a></li>
+                          </ul>
+                          
+                      </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </section>
+    </main>
+
+<%- include('footer') %>

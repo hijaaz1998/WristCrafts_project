@@ -1,0 +1,122 @@
+    <%- include('header') %>
+
+    <main class="main">
+        <section class="pt-50 pb-150 container-fluid">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-3"> <!-- Sidebar with tabs -->
+                        <div class="dashboard-menu">
+                            <ul class="nav flex-column" role="tablist">
+                                
+                                    <li class="nav-item">
+                                        <a class="nav-link " id="dashboard-tab"  href="/account"   ><i class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
+                                    </li>
+                                    
+                                    <li class="nav-item">
+                                        <a class="nav-link " id="orders-tab"  href="/orders" ><i class="fi-rs-shopping-bag mr-10"></i>Orders</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="track-orders-tab"  href="#track-orders" ><i class="fi-rs-shopping-cart-check mr-10"></i>Track Your Order</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="address-tab" href="/address" ><i class="fi-rs-marker mr-10"></i>My Address</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="account-detail-tab"  href="/wallet" ><i class="fi-rs-user mr-10"></i>Wallet</a>
+                                    </li>
+                                    
+                                
+                            </ul>
+                        </div>
+                        
+                    </div>
+                    
+                    
+                    <div class="col-lg-9"> <!-- Content area -->
+                        <div class="content-header">
+                            <div class="wallet-balance">
+                                <div class="wallet-header">
+                                    <h3>Your Wallet Balance</h3>
+                                </div>
+                                <div class="wallet-amount">
+                                    <p>$<%= walletBalance %></p> <!-- Replace with the actual wallet balance -->
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive"  style="max-height: 400px; overflow-y: scroll;">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#ID</th>    
+                                            <th scope="col">Total</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Date</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% transactions.forEach(transaction => { %>
+                                        <tr>
+                                            <td><%= transaction._id %></td>
+                                            <td>$<%= transaction.amount %></td>
+                                            <td>
+                                                <% if (transaction.type === 'credit') { %>
+                                                    <span class="badge rounded-pill alert-success">Credit</span>
+                                                <% } else if(transaction.type === 'debit') { %>
+                                                    <span class="badge rounded-pill alert-danger">Debit</span>
+                                                <% } %>
+                                            </td>
+                                            
+                                            
+                                            
+                                            <td><%= transaction.date.toDateString() %></td>
+                                            
+                                            
+                                        </tr>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                            </div> <!-- table-responsive //end -->
+                            <ul class="pagination">
+                                <% const maxPageLinks = 3; %>
+                                <% const startPage = Math.max(1, currentPage - Math.floor(maxPageLinks / 2)); %>
+                                <% const endPage = Math.min(totalPages, startPage + maxPageLinks - 1); %>
+                                
+                                <% if (currentPage > 1) { %>
+                                  <li>
+                                    <a href="/wallet?page=1">First</a>
+                                  </li>
+                                  <li>
+                                    <span class="ellipsis">...</span>
+                                  </li>
+                                <% } %>
+                              
+                                <% for (let i = startPage; i <= endPage; i++) { %>
+                                  <li>
+                                    <a href="/wallet?page=<%= i %>" class="<%= i === currentPage ? 'active' : '' %>">
+                                      <%= i %>
+                                    </a>
+                                  </li>
+                                <% } %>
+                              
+                                <% if (currentPage < totalPages) { %>
+                                  <li>
+                                    <span class="ellipsis">...</span>
+                                  </li>
+                                  <li>
+                                    <a href="/wallet?page=<%= totalPages %>">Last</a>
+                                  </li>
+                                <% } %>
+                              </ul>
+                        </div> <!-- card-body end// -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+        
+    <%- include('footer') %>

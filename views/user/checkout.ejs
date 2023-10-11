@@ -1,0 +1,567 @@
+
+
+<%- include('header') %>
+   
+    <main class="main">
+        <section class="mt-50 mb-50">
+            <div class="container">
+                <div class="row">
+                    
+                
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="divider mt-50 mb-50"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Card with address details -->
+                        <% if (address.length > 0) { %>
+                            <% for (let i = 0; i < address.length; i++) { %>
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <form action="#" method="get">
+                                            <!-- Add a radio button for selecting this address as default -->
+                                            <div class="form-check">
+                                                <input
+                                                    type="radio"
+                                                    name="defaultAddress"
+                                                    class="form-check-input address-radio"
+                                                    value="<%= address[i]._id %>"
+                                                    id="address<%= i %>"
+                                                >
+                        
+                                                <!-- Add this hidden input field inside your form -->
+                                                <input type="hidden" name="selectedAddress" id="selectedAddressInput" value="<%= address[i]._id %>">
+                        
+                                                <label class="form-check-label"><%= address[i].street %></label>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <address>
+                                                        <br><%- address[i].name %><br><%- address[i].email %><br><%- address[i].phone %> <br>
+                                                        <%- address[i].address %> <br> <%- address[i].city %>,<br> <%- address[i].pincode %> <br>
+                                                    </address>
+                                                    <p><%- address[i].state %></p>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% } else { %>
+                            <!-- Display a message or button to create a new address when there are no addresses -->
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <p>No addresses found. <a href="/addNewAddress">Create one</a></p>
+                                </div>
+                            </div>
+                        <% } %>
+                        
+                    </div>
+                    
+                
+                    <div class="col-md-6">
+                        <div class="order_review">
+                            <div class="mb-20">
+                                <h4>Your Orders</h4>
+                            </div>
+                            <div class="table-responsive order_table text-center">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">Product</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% let subtotal = 0; %>
+                                            <% user.cart.forEach(function(item) { %>
+                                                <tr>
+                                                    <td class="image product-thumbnail"><img src="/admin/assets/productsImages/<%- item.products.image %>" alt="<%= item.name %>"></td>
+                                                    <td>
+                                                        <h5><%= item.products.productName %></h5>
+                                                        <span class="product-qty">x <%= item.quantity %></span>
+                                                    </td>
+                                                    <% const itemTotal = item.products.salePrice * item.quantity; %>
+                                                    <td>$<%= itemTotal %>.00</td>
+                                                    <% subtotal += itemTotal; %>
+                                                </tr>
+                                            <% }); %>
+
+                                        
+                                              
+                                           
+                                            <tr>
+                                                <th>SubTotal</th>
+                                                <td class="product-subtotal" colspan="2" id="grandTotal" data-subtotal="<%= subtotal %>">$<%= subtotal %>.00</td>
+
+                                            </tr>
+                                            <tr>
+                                                <th>Shipping</th>
+                                                <td colspan="2"><em>Free Shipping</em></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Total</th>
+                                                <input type="hidden" id="hiddenTotal" value="<%= subtotal %>" readonly>
+                                                <td colspan="2" class="product-subtotal" id="total" data-subtotal="<%= subtotal %>">$<%= subtotal %>.00</td>
+                                            </tr>
+                                            <tr class="discount-row">
+                                                <th>Discounted Amount</th>
+                                                <td colspan="2" class="product-subtotal">
+                                                    <input type="hidden" id="hiddenDiscount" readonly>
+                                                  <span class="font-xl text-brand fw-900">
+                                                    $<span id="discountAmount"></span>
+                                                  </span>
+                                                </td>
+                                              </tr>
+                                            <tr class="discount-row">
+                                                <th>Grand Total After Discount</th>
+                                                <td colspan="2" class="product-subtotal">
+                                                    <input type="hidden" id="hiddenDiscountedPrice" readonly>
+                                                  <span class="font-xl text-brand fw-900">
+                                                    $<span id="discountedPrice"></span>
+                                                  </span>
+                                                </td>
+                                            </tr>
+                                              
+                                        </tbody>
+                                    </table>
+                                    
+                                      
+                            </div>
+                            <div class="mb-30 mt-50">
+                                <div class="heading_s1 mb-3">
+                                    <h4>Apply Coupon</h4>
+                                </div>
+                                <div class="total-amount">
+                                    <div class="left">
+                                        <div class="coupon">
+                                            <form action="#" target="_blank">
+                                                <div class="form-row row justify-content-center">
+                                                    <div class="form-group col-lg-6">
+                                                        <div class="custom-dropdown">
+                                                            <select class="form-control font-medium" id="couponDropdown" name="Coupon">
+                                                                <option value="">Select a Coupon</option>
+                                                                <% if (coupons.length === 0) { %>
+                                                                    <option disabled>No available coupons</option>
+                                                                <% } else { %>
+                                                                    <% coupons.forEach(function(coupon) { %>
+                                                                        <option value="<%= coupon._id %>"><%= coupon.name %></option>
+                                                                    <% }); %>
+                                                                <% } %>
+                                                            </select>
+                                                            <div class="coupon-details" id="couponDetails">
+                                                                <!-- Coupon details will be displayed here -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <button type="button" class="btn btn-sm" id="applyCouponBtn"><i class="fi-rs-label mr-10"></i>Apply</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <br><br>
+                            <div class="bt-1 border-color-1 mt-30 mb-30"></div>
+                            <div class="payment_method">
+                                <div class="mb-25">
+                                    <h5>Payment</h5>
+                                </div>
+                                <div class="payment_option">
+                                    <div class="custome-radio">
+                                        <input class="form-check-input" required="" type="radio" name="payment_option" id="onlinePayment" value="onlinePayment">
+                                        <label class="form-check-label" for="onlinePayment" data-bs-toggle="collapse" data-target="#onlinePayment" aria-controls="onlinePayment">Online Payment</label>
+                                        <div class="form-group collapse in" id="onlinePayment">
+                                            <p class="text-muted mt-5">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration.</p>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="custome-radio">
+                                        <input class="form-check-input" required="" type="radio" name="payment_option" id="wallet" value="wallet">
+                                        <label class="form-check-label" for="wallet" data-bs-toggle="collapse" data-target="#wallet" aria-controls="wallet">Wallet</label>
+                                        <div class="form-group collapse in" id="wallet">
+                                            <p class="text-muted mt-5">Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="custome-radio">
+                                        <input class="form-check-input" required="" type="radio" name="payment_option" id="codPayment" value="COD">
+                                        <label class="form-check-label" for="codPayment" data-bs-toggle="collapse" data-target="#codCollapse" aria-controls="codCollapse">COD</label>
+                                        <div class="form-group collapse in" id="codCollapse">
+                                            <p class="text-muted mt-5">Pay via COD; you can pay with cash upon delivery.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wallet-balance">
+                                    <p>Your Wallet Balance: <%= walletBalance %>.00</p>
+                                </div>
+                            </div>
+                            
+                            
+                            <input type="hidden" id="cartData" name="cart" value='<%= JSON.stringify(user.cart) %>'>
+                            <input type="hidden" value="<%= subtotal %>" id="total" name="total">
+                            <input type="hidden" value="<%= user.cart.quantity %>" id="quantity" name="quantity">
+                            <a href="javascript:void(0);" class="btn btn-fill-out btn-block mt-30" onclick="placeOrder()">Place Order</a>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div class="modal fade" id="myAddressModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Address is not Selected</h4>
+                </div>
+                <div class="modal-body">
+                    Please select an address before placing the order.
+                </div>
+                <div class="modal-footer">
+                    Press anywhere to close this  
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myPaymentModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Payment Method is not Selected</h4>
+                </div>
+                <div class="modal-body">
+                    Please select a Payment Method before placing the order.
+                </div>
+                <div class="modal-footer">
+                    Press anywhere to close this  
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+<%- include('footer') %>
+
+
+<script>
+
+    function getValueToSend() {
+    const discountedPriceElement = document.getElementById('hiddenDiscountedPrice');
+    
+    const discountedPrice= discountedPriceElement.value;
+    const totalInputElement = document.getElementById('hiddenTotal');
+    console.log("DISCOUNTED PRICE",discountedPrice);
+    const final = totalInputElement.value;
+
+
+    if (discountedPrice) {
+        console.log("discounted",discountedPrice)
+        return discountedPrice; 
+    } else {
+        console.log("not discounted",final);
+        return final;
+    }
+    }
+    function placeOrder() { 
+
+        const selectedAddressRadio = document.querySelector('input[name="defaultAddress"]:checked');
+    if (!selectedAddressRadio) {
+        
+        $('#myAddressModal').modal('show');
+        return; 
+    }
+
+    const selectedPaymentMethodRadio = document.querySelector('input[name="payment_option"]:checked');
+    if (!selectedPaymentMethodRadio) {
+        
+        $('#myPaymentModal').modal('show');
+        return;
+    }
+
+        const valueToSend = Number(getValueToSend());
+        
+        console.log("valueToSend", valueToSend)
+        console.log("valueToSend", typeof valueToSend)
+        const selectedAddressId = document.querySelector('input[name="defaultAddress"]:checked').value;
+
+    const selectedPaymentMethod = document.querySelector('input[name="payment_option"]:checked').value;
+
+    const cartData = JSON.parse(document.getElementById('cartData').value);
+
+    const discountedPriceElement = document.getElementById('discountedPrice');
+    const textContent = discountedPriceElement.textContent;
+
+    const grandTotalElement = document.getElementById('grandTotal');
+    const grandTotalValue = grandTotalElement.textContent;
+
+
+    const grandTotal = parseFloat(grandTotalValue.match(/\d+\.\d+/));
+
+
+    const discountAmountPrice = document.getElementById('hiddenDiscount');
+    const discount = discountAmountPrice.value;
+
+
+    const productId = [];
+
+    const selectedCouponId = $('#couponDropdown').val();
+
+    
+    cartData.forEach(function (item) {
+        productId.push(item.products._id);
+    });
+
+   
+    const data = {
+        selectedAddress: selectedAddressId,
+        paymentMethod: selectedPaymentMethod,
+        cart: cartData,
+        total: valueToSend,
+        discountedPrice: discount? discount : 0,
+        productId: productId 
+    };
+    console.log(data)
+
+    fetch(`/placeOrder/${selectedCouponId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then((response)=>{
+        return response.json()
+    })
+    .then(data => {
+        console.log(data);
+        if (data.codSuccess) {
+            window.location.href = '/orderConfirmed';
+        } else if(data.walletSuccess){
+            window.location.href = '/orderConfirmed';
+        } else if(data.cartChange){
+            window.location.href = '/cart';
+        }
+         else {
+            console.log("RESPONSE",data.response);
+            razorPayment(data.response)
+        }
+    })
+    .catch(error => {
+        console.log('Error:', error);
+    });
+}
+
+function razorPayment(order) {
+
+  var options = {
+    "key": "rzp_test_fWH63GUDMTI221", // Enter the Key ID generated from the Dashboard
+    "amount": order.amount*100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Acme Corp", //your business name
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+ 
+        verifyPayment(response, order)
+    },
+    // "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
+    //     "name": "Gaurav Kumar", //your customer's name
+    //     "email": "gaurav.kumar@example.com", 
+    //     "contact": "9000090000"  //Provide the customer's phone number for better conversion rates 
+    // },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    },
+    "modal": {
+      ondismiss() {
+    
+        Swal.fire({
+            icon: 'error',
+            title: 'Payment Failed',
+            text: 'Your payment could not be processed.',
+            confirmButtonText: 'OK',
+            allowOutsideClick: false
+        }).then((result) => {
+            if(result.isConfirmed){
+                window.location.href ="/paymentFailed"
+            }
+        });
+    
+    },
+    },
+    
+};
+  var rzp1 = new Razorpay(options);
+  rzp1.open();
+  
+
+}
+
+function verifyPayment(payment, order){
+    $.ajax({
+        url: '/verifyPayment',
+        data: {
+            payment,
+            order
+        },
+        method: 'POST',
+        success: (response)=> {
+            if(response.status){
+                window.location.href = '/orderConfirmed';
+            } else {
+                alert('Payment Failed')
+            }
+        }
+    })
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const paymentOptions = document.querySelectorAll('input[name="payment_option"]');
+
+    paymentOptions.forEach(function(option) {
+        option.addEventListener('click', function() {
+            // Uncheck all other radio buttons when one is selected
+            paymentOptions.forEach(function(otherOption) {
+                if (otherOption !== option) {
+                    otherOption.checked = false;
+                }
+            });
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const addressRadios = document.querySelectorAll('.address-radio');
+
+    addressRadios.forEach(function (radio) {
+        radio.addEventListener('click', function () {
+            // Uncheck all other address radio buttons when one is selected
+            addressRadios.forEach(function (otherRadio) {
+                if (otherRadio !== radio) {
+                    otherRadio.checked = false;
+                }
+            });
+        });
+    });
+});
+
+
+</script>
+<script>
+   
+    document.addEventListener('DOMContentLoaded', function() {
+        const couponDropdown = document.getElementById('couponDropdown');
+        const couponDetails = document.getElementById('couponDetails');
+        
+        couponDropdown.addEventListener('change', function() {
+            const selectedCouponId = couponDropdown.value;
+            
+
+            if (selectedCouponId) {
+                // Make an AJAX request to fetch coupon details
+                fetch(`/selectCoupon/${selectedCouponId}`) // Replace with your API endpoint
+                .then(response => response.json())
+                .then(couponDetailsData => {
+                    // Display coupon details in the couponDetails div
+                    couponDetails.innerHTML = `
+                        <h3>${couponDetailsData.code}</h3>
+                        <p class="font-weight-bold">${couponDetailsData.name}</p>
+                        <p class="font-weight-bold">${couponDetailsData.discountPercentage}% off upto Rs.${couponDetailsData.maxDiscountValue}</p>
+                        <!-- Add more coupon details as needed -->
+                    `;
+                })
+                .catch(error => {
+                    console.error('Error fetching coupon details:', error);
+                    });
+            } else {
+                // Clear the coupon details if no coupon is selected
+                couponDetails.innerHTML = '';
+            }
+            // For demonstration purposes, we'll assume you have coupon details in a JavaScript object
+            const couponDetailsData = {
+                code: 'COUPON_CODE',
+                description: 'Coupon Description',
+                discountPercent: 10,
+                maxDiscount: 100,
+                // Add other coupon details here
+            };
+            
+            // Display coupon details in the couponDetails div
+            couponDetails.innerHTML = `
+                <h3>${couponDetailsData.code}</h3>
+                <p class="font-weight-bold">${couponDetailsData.description}</p>
+                <p class="font-weight-bold">${couponDetailsData.discountPercent}% off upto Rs.${couponDetailsData.maxDiscount}</p>
+                <!-- Add more coupon details as needed -->
+            `;
+        });
+    });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Attach a click event listener to the "Apply" button
+            $('#applyCouponBtn').click(function(event) {
+                event.preventDefault(); // Prevent the form from submitting
+        
+                // Get the selected coupon ID from the dropdown
+                const selectedCouponId = $('#couponDropdown').val();
+                const subtotal = $('.product-subtotal').data('subtotal'); // Corrected selector
+        
+                // Check if a coupon is selected
+                if (selectedCouponId) {
+                    console.log('HEREEEE')
+                // Get the subtotal value
+                 // Assuming this is correct
+
+                // Make an AJAX request to fetch coupon details
+                $.ajax({
+                    type: 'GET',
+                    url: `/applyCoupon/${selectedCouponId}?subtotal=${subtotal}`,
+                    beforeSend: function () {
+                                    console.log('Sending AJAX request...');
+                                },
+                    success: function(response) {
+                        console.log('AJAX request successful.');
+                        
+        
+                        if (response.discountedPrice > 0) {
+                            // Update the content of the "discountedPrice" span with the discounted amount
+                            const discounts = response.discount;
+                            const disscountedPrices = response.discountedPrice
+
+                            discount = discounts.toFixed(2);
+                            discountedPrice = disscountedPrices.toFixed(2);
+                            
+                            $('#discountAmount').text(discount);
+                            $('#hiddenDiscount').val(discount);
+                            console.log("discountedPrice",discountedPrice);
+                            $('#discountedPrice').text(discountedPrice);
+                            $('#hiddenDiscountedPrice').val(discountedPrice);
+
+                            // Show the discount row
+                            $('.discount-row').show();
+                        }
+                        
+                    },
+                    error: function(error) {
+                        console.error('Error fetching coupon details:', error);
+                    }
+                });
+            } else {
+                    // Clear the coupon details if no coupon is selected
+                    $('#couponDetails').empty();
+                }
+            });
+        });
+        </script>
+        
+    

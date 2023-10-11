@@ -1,0 +1,74 @@
+<%- include('header') %>
+   
+   <main class="main">
+        <section class="mt-50 mb-50">
+            <div class="container">
+                <div class="row flex">
+                    <div class="col-lg-12">
+
+                        <div class="content-header">
+                            <div>
+                                <h2 class="content-title card-title">Search Results</h2>
+                                
+                            </div>
+                            
+                        </div>
+                       
+                        <div class="row product-grid-3">
+                          <% for (let i = 0; i < Product.length; i++) { %>
+                            <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                              <div class="product-cart-wrap mb-30">
+                                <div class="product-img-action-wrap">
+                                  <div class="product-img product-img-zoom">
+                                    <a href="/productDetail?id=<%- Product[i]._id %>">
+                                      <img class="default-img" src="/admin/assets/productsImages/<%- Product[i].image %>" alt="">
+                                    </a>
+                                  </div>
+                                  <div class="product-action-1">
+                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                  </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                  <div class="product-category">
+                                    <a href="#"><%- Product[i].brandName %></a>
+                                  </div>
+                                  <h2><a href="#"><%- Product[i].productName %></a></h2>
+                                  <div class="rating-result" title="90%"></div>
+                                  <div class="product-price">
+                                    <span><%- "$" + Product[i].salePrice %></span>
+                                    <span class="old-price"><%- "$" + Product[i].regularPrice %></span>
+                                  </div>
+                        
+                                  <!-- Add to Cart form -->
+                                  <form action="/addToCart" method="post">
+                                    <div class="product-action-1 show">
+                                      <!-- Check if there is stock (quantity > 0) -->
+                                      <% if (Product[i].quantity > 0) { %>
+                                        <button aria-label="Add To Cart" class="action-btn hover-up" type="submit">
+                                          <input type="hidden" value="<%= Product[i]._id %>" name="id">
+                                          <h6>Cart</h6>
+                                        </button>
+                                      <% } else { %>
+                                        <!-- Display "Out of Stock" -->
+                                        <span class="out-of-stock">Out of Stock</span>
+                                      <% } %>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          <% } %>
+                        </div>
+                        
+                    
+                    </div>
+                    
+                    
+                    
+                </div>
+                
+            </div>
+        </section>
+    </main>
+
+<%- include('footer') %>

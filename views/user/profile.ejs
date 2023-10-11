@@ -1,0 +1,83 @@
+<%- include('header') %>
+
+<main class="main">
+    <section class="pt-50 pb-150 container-fluid">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3"> <!-- Sidebar with tabs -->
+                    <div class="dashboard-menu">
+                        <ul class="nav flex-column" >
+                            <li class="nav-item">
+                                <a class="nav-link active" id="dashboard-tab"  href="/account"   ><i class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" id="orders-tab"  href="/orders" ><i class="fi-rs-shopping-bag mr-10"></i>Orders</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="track-orders-tab"  href="#track-orders" ><i class="fi-rs-shopping-cart-check mr-10"></i>Track Your Order</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="address-tab" href="/address" ><i class="fi-rs-marker mr-10"></i>My Address</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="account-detail-tab"  href="/wallet" ><i class="fi-rs-user mr-10"></i>Wallet</a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-9"> <!-- Content area -->
+                    <div class="row">
+                        
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h4>Basic</h4>
+                                </div>
+                                <div class="card-body">
+                                    
+                                        <div class="mb-4">
+                                            <label for="product_name" class="form-label">Name</label>
+                                            <input type="text" readonly value="<%- user.fname %> <%- user.lname %>" class="form-control" id="product_name">
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="product_name" class="form-label">Email</label>
+                                            <input type="text" readonly value="<%- user.email %>" class="form-control" id="product_name">
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="product_name" class="form-label">Mobile</label>
+                                            <input type="text" readonly value="<%- user.mobile %>" class="form-control" id="product_name">
+                                        </div>
+                                        
+                                        
+                                        
+                                
+                                </div>
+                            </div> <!-- card end// -->
+                            
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h4>Profile</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="input-upload">
+                                        <img src="assets/img/theme/upload.svg" alt="">
+                                        
+                                    </div>
+                                </div>
+                            </div> <!-- card end// -->
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+    
+<%- include('footer') %>

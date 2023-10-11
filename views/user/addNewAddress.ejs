@@ -1,0 +1,87 @@
+<%- include('header') %>
+
+<main class="main">
+    <section class="pt-50 pb-150 container-fluid">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3"> <!-- Sidebar with tabs -->
+                    <div class="dashboard-menu">
+                        <ul class="nav flex-column" role="tablist">
+                            
+                                <li class="nav-item">
+                                    <a class="nav-link " id="dashboard-tab"  href="/account"   ><i class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
+                                </li>
+                                
+                                <li class="nav-item">
+                                    <a class="nav-link " id="orders-tab"  href="/orders" ><i class="fi-rs-shopping-bag mr-10"></i>Orders</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="track-orders-tab"  href="#" ><i class="fi-rs-shopping-cart-check mr-10"></i>Track Your Order</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="address-tab" href="/address" ><i class="fi-rs-marker mr-10"></i>My Address</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="account-detail-tab"  href="/wallet" ><i class="fi-rs-user mr-10"></i>Wallet</a>
+                                </li>
+                                
+                            
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-9"> <!-- Content area -->
+                    <div class="row">
+                        <div class="col-9">
+                            <div class="content-header">
+                                
+                            </div>
+                        </div><br><br><br>
+                        <div class="col-9">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row gx-5">
+                                        
+                                        <div class="col-lg-9">
+                                            <section class="content-body p-xl-4">
+                                                <form method="post" id="new-form" action="/addNewAddress">
+                                                    <div class="form-group">
+                                                        <input type="text" required="" name="name" id="name" placeholder="Name ">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="text" required="" name="email" id="email" placeholder="Email ">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="text" required="" name="phone" id="phone" placeholder="Mobile ">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="text" name="address" id="address" required="" placeholder="Address ">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input required="" type="text" name="city" id="city" placeholder="City / Town ">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input required="" type="text" name="state"  id="state" placeholder="State / County ">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input required="" type="text" name="pincode" id="pincode" placeholder="Postcode / ZIP ">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <button type="submit" class="btn btn-primary">Save</button>
+                                                    </div>
+                                                </form>
+                                            </section> <!-- content-body .// -->
+                                        </div> <!-- col.// -->
+                                    </div> <!-- row.// -->
+                                </div> <!-- card body end// -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+    
+<%- include('footer') %>
