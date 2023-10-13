@@ -109,11 +109,11 @@ function registerValidate(){
         return false;
      }
      if (!passwordRegex.test(password.value)) {
-        passwordError.innerHTML = "Please enter a strong password"
+        passwordError.innerHTML = "Password must include 1 Capital Letter, 1 Small Letter, 1 Special Symbol, and I number, And it should be 8 letters"
         passwordError.style.color = 'red';
         setTimeout(() => {
            passwordError.innerHTML = ''
-        }, 5000);
+        }, 10000);
         return false;
      }
 

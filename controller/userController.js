@@ -423,7 +423,9 @@ const forgotOtpVerify = async (req, res) => {
                     res.redirect('/login');
                 } else {
                     console.log('Email sent:');
-                    res.redirect(`/forgotVerify?otp=${otp}&email=${email}`);
+                    req.session.email = email;
+                    req.session.otp = otp;
+                    res.redirect(`/forgotVerify`);
                 }
             });
         }
@@ -438,13 +440,13 @@ const forgotOtpVerify = async (req, res) => {
 const loadForgotOtpVerify = async (req, res) => {
     try {
 
-        const email = req.query.email;
-        const otp = req.query.otp;
+        // const email = req.query.email;
+        // const otp = req.query.otp;
 
-        req.session.email = email;
-        req.session.otp = otp;
+        // req.session.email = email;
+        // req.session.otp = otp;
 
-        res.render('forgotVerify', { email: email, otp: otp });
+        res.render('forgotVerify');
 
     } catch (error) {
         console.log(error.message);
@@ -454,11 +456,16 @@ const loadForgotOtpVerify = async (req, res) => {
 const forgotPasswordVerify = async (req, res) => {
 
     try {
-        const email = req.body.email;
-        const otp = req.body.otp;
-        const vOtp = req.body.vOtp
+        console.log(req.session.email);
+        console.log(req.session.otp);
+        console.log(req.body.otp);
+        const email = req.session.email;
+        const otp = parseInt(req.body.otp);
+        const vOtp = req.session.otp
+        console.log(typeof otp);
+        console.log(typeof vOtp);
 
-        if (otp === vOtp) {
+        if (otp===vOtp) {
 
             const securePword = await securePassword(req.body.password);
 
@@ -469,7 +476,11 @@ const forgotPasswordVerify = async (req, res) => {
                     }
                 })
 
+                console.log(user);
+
             const userData = await user.save();
+            console.log(user);
+            console.log(userData);
 
             if (userData) {
 
