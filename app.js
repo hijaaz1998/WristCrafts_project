@@ -38,6 +38,6 @@ app.use('/admin', adminRoute);
 app.set('view engine', 'ejs');
 // app.set('view engine', 'ejs');
 
-app.listen(1000, () => {
+app.listen(8000, () => {
     console.log('server started');
 })
