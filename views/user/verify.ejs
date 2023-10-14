@@ -11,11 +11,12 @@
                                 <h3 class="mb-30">Verify Now</h3>
                             </div>
 
-                            <form method="post" action="/verify" method="post" novalidate="novalidate">
+                            <form method="post" action="/verify" method="post" onsubmit="return otpValidate()">
                                 <div class="form-group">
                                     <input type="text"  id="otp" name="otp" value=""
                                     placeholder="Enter The OTP">
                                 </div>
+                                <p id="otperror"></p>
                                 <div class="login_footer form-group">
                                     <div class="chek-form">
                                         <div class="custome-checkbox">
@@ -27,6 +28,11 @@
                                     <button type="submit" class="btn btn-fill-out btn-block hover-up" name="login">Verify</button>
                                 </div>
                             </form>
+                            <% if (errMessage) { %>
+                                <div  class="alert alert-danger text-center mt-5" role="alert">
+                                    <%- errMessage %>
+                                </div>
+                            <% } %>
                             
                             
                         </div>
@@ -38,3 +44,30 @@
 </main>
 
 <%- include('footer') %>
+
+<script>
+
+    function otpValidate(){
+        const otp = document.getElementById('otp');
+        const otpRegex = /^[0-9]{4}$/;
+
+        if (otp.value.trim() === '') {
+            otperror.innerHTML = 'Otp is required'
+            otperror.style.color = 'red';
+         setTimeout(() => {
+            otperror.innerHTML = ''
+         }, 5000)
+         return false;
+      }
+   
+      if(!otpRegex.test(otp.value)){
+        otperror.innerHTML = 'Please enter a valid number'
+        otperror.style.color = 'red';
+         setTimeout(()=>{
+            otperror.innerHTML = ''
+         },5000)
+         return false;
+      }
+        
+    }
+</script>

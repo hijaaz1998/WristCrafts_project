@@ -135,7 +135,7 @@ const otpVerify = async (req, res) => {
 
     try {
 
-        res.render('verify');
+        res.render('verify', {errMessage: ''});
 
     } catch (error) {
         console.log(error.message);
@@ -167,7 +167,7 @@ const verified = async (req, res) => {
             }
 
         } else {
-            console.log("error")
+            res.render('verify', {errMessage: 'Invalid OTP'})
         }
 
     } catch (error) {
@@ -528,13 +528,12 @@ const searchProducts = async (req, res) => {
         const category = await Category.find();
 
         if(searchResults){
+            
             res.render('searchResults', { Product: searchResults, category: category })
         }
 
-        res.redirect('')
-
     } catch (error) {
-
+        console.log(error.message);
     }
 }
 

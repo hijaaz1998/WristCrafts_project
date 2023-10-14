@@ -15,7 +15,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% if (wishlist.products.length > 0) { %>
+                            <% if (wishlist && wishlist.products.length > 0) { %>
                                 <% wishlist.products.forEach(function(wishlistItem) { %>
                                 <tr>
                                     <td class="image product-thumbnail"><img src="/admin/assets/productsImages/<%- wishlistItem.image[0] %>" alt="#"></td>
@@ -53,7 +53,7 @@
                             <p>Looks like you haven't added any items to your wishlist yet.</p>
                             <a href="/shop" class="btn btn-primary">Continue Shopping</a>
                         </div><br><br><br>
-                    <% } %>   
+                    <% } %>    
                 </div>
             </div>
         </div>
