@@ -27,8 +27,12 @@
                                 <div class="form-group text-center"> 
                                     <button type="submit" class="btn btn-fill-out btn-block hover-up" name="login">Verify</button>
                                 </div>
-                            </form>errMessage
-                            
+                            </form>
+                            <% if (errMessage) { %>
+                                <div  class="alert alert-danger text-center mt-5" role="alert">
+                                    <%- errMessage %>
+                                </div>
+                            <% } %>
                             
                             
                         </div>
