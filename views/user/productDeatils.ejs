@@ -20,7 +20,7 @@
                                     <h2 class="title-detail"><%- Product.productName %></h2>
                                     <div class="product-detail-rating">
                                         <div class="pro-details-brand">
-                                            <span> Brand <a href="shop-grid-right.html"><%- "$" + Product.brandName %></a></span>
+                                            <span> Brand <a href="#"><%- "$" + Product.brandName %></a></span>
                                         </div>
                                         
                                     </div>
@@ -53,11 +53,12 @@
                                                 <form action="/addToCart" method="post">
                                                     <button type="submit" class="button button-add-to-cart">Add to cart</button>
                                                     <input type="hidden" value="<%= Product._id %>" name="ProductId" id="ProductId">
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/addToWishlist?productId=<%= Product._id %>"><i class="fi-rs-heart"></i></a>
                                                 </form>
                                               <% } else { %>
                                                 <!-- Display "Out of Stock" -->
                                                 <span class="out-of-stock">Out of Stock</span>
+                                                <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/addToWishlist?productId=<%= Product._id %>"><i class="fi-rs-heart"></i></a>
                                             <% } %>
                                         </div>
                                     </div>

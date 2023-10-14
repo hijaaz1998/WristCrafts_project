@@ -209,6 +209,8 @@
                             <input type="hidden" value="<%= user.cart.quantity %>" id="quantity" name="quantity">
                             <a href="javascript:void(0);" class="btn btn-fill-out btn-block mt-30" onclick="placeOrder()">Place Order</a>
 
+                            <div id="error-message" class="alert alert-danger" style="display: none;">
+                            </div>
 
                         </div>
                     </div>
@@ -252,6 +254,18 @@
 
 
 <script>
+
+function showError(errorMessage) {
+    // Display the error message
+    const errorMessageElement = document.getElementById("error-message");
+    errorMessageElement.innerHTML = errorMessage;
+    errorMessageElement.style.display = "block";
+
+    // Set a timer to hide the error message after 5 seconds
+    setTimeout(function() {
+      errorMessageElement.style.display = "none";
+    }, 5000); // 5000 milliseconds = 5 seconds
+  }
 
     function getValueToSend() {
     const discountedPriceElement = document.getElementById('hiddenDiscountedPrice');
@@ -347,6 +361,8 @@
             window.location.href = '/orderConfirmed';
         } else if(data.cartChange){
             window.location.href = '/cart';
+        } else if(data.walletError){
+            showError("Insufficient balance in your wallet");
         }
          else {
             console.log("RESPONSE",data.response);

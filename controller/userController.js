@@ -309,7 +309,9 @@ const loadProductDeatils = async (req, res) => {
 
     try {
 
-        const userId = res.locals.user._id;
+        if(res.locals.user){
+
+            const userId = res.locals.user._id;
 
         const userOrderedProduct = await Order.findOne({
             user: userId,
@@ -334,6 +336,20 @@ const loadProductDeatils = async (req, res) => {
 
         const Data = await Product.findById(req.query.id);
         res.render('productDeatils', { Product: Data, user: res.locals.user, review: reviews.reviews, userReviews: userReviews, userOrderedProduct: userOrderedProduct });
+
+        } else {
+
+            const reviews = await Product.findById(req.query.id)
+            .select({ reviews: { $slice: 3 } }) 
+            .populate('reviews.user', 'fname')
+            .sort({ 'reviews.createdOn': -1 });
+
+            const Data = await Product.findById(req.query.id);
+            res.render('productDeatils',{Product : Data, user: res.locals.user, review: reviews.reviews, userReviews: [], userOrderedProduct: null });
+
+        }
+
+        
 
     } catch (error) {
         console.log(error.message);
@@ -511,9 +527,11 @@ const searchProducts = async (req, res) => {
 
         const category = await Category.find();
 
+        if(searchResults){
+            res.render('searchResults', { Product: searchResults, category: category })
+        }
 
-        res.render('searchResults', { Product: searchResults, category: category })
-
+        res.redirect('')
 
     } catch (error) {
 

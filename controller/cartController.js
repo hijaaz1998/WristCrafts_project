@@ -38,6 +38,8 @@ const loadCart = async (req, res) => {
 
     const cartProducts = await User.findById(userId).populate('cart.products');
 
+    console.log(cartProducts);
+
     res.render('cart', { cartProducts: cartProducts.cart, userId: userId });
 
   } catch (error) {

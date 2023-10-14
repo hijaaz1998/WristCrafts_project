@@ -18,7 +18,7 @@
                             <% if (wishlist.products.length > 0) { %>
                                 <% wishlist.products.forEach(function(wishlistItem) { %>
                                 <tr>
-                                    <td class="image product-thumbnail"><img src="/admin/assets/productsImages/<%- wishlistItem.image %>" alt="#"></td>
+                                    <td class="image product-thumbnail"><img src="/admin/assets/productsImages/<%- wishlistItem.image[0] %>" alt="#"></td>
                                     <td class="product-des product-name">
                                         <h5 class="product-name"><a href="shop-product-right.html"><%= wishlistItem.productName %></a></h5>
                                                 <p class="font-xs"><%= wishlistItem.brandName %><br><%= wishlistItem.description %></p>

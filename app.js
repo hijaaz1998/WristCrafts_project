@@ -35,8 +35,14 @@ app.use(express.static('public'));
 app.use('/', userRoute);
 app.use('/admin', adminRoute);
 
+
+
 app.set('view engine', 'ejs');
 // app.set('view engine', 'ejs');
+
+app.get('*', (req, res) => {
+    res.render('user/error-404')
+})
 
 app.listen(8000, () => {
     console.log('server started');

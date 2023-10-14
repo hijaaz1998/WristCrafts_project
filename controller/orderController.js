@@ -55,8 +55,6 @@ const placeOrder = async (req, res) => {
         } = req.body;
         const selectedAddressId = new mongoose.Types.ObjectId(selectedAddress);
 
-        console.log("cart", cart);
-
         const products = cart.map((item) => ({
             product: item.products._id,
             quantity: item.quantity,
@@ -108,7 +106,7 @@ const placeOrder = async (req, res) => {
 
             const user = await User.findById(userId);
             if (user.walletBalance < savedOrder.total) {
-                return res.status(400).json({ message: 'Insufficient balance to complete the order' });
+                return res.json({ walletError : true});
             } else {
                 user.walletBalance -= savedOrder.total;
 
