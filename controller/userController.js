@@ -135,7 +135,7 @@ const otpVerify = async (req, res) => {
 
     try {
 
-        res.render('verify', {errMessage: ''});
+        res.render('verify', { errMessage: ''});
 
     } catch (error) {
         console.log(error.message);
