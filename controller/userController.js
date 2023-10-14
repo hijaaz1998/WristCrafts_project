@@ -377,7 +377,7 @@ const forgotPassword = async (req, res) => {
 
     try {
 
-        res.render('forgotPassword')
+        res.render('forgotPassword', {errMessage: ''});
 
     } catch (error) {
         console.log(error.message)
